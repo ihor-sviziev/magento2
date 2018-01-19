@@ -172,6 +172,11 @@ class EscaperTest extends \PHPUnit\Framework\TestCase
                 'data' => '&<>"\'&amp;&lt;&gt;&quot;&#039;&#9;',
                 'expected' => '&amp;&lt;&gt;&quot;&#039;&amp;&lt;&gt;&quot;&#039;&#9;'
             ],
+            'text with special characters and allowed br' => [
+                'data' => '&<br/><>"\'&amp;&lt;&gt;&quot;&#039;&#9;',
+                'expected' => '&amp;<br>&quot;&#039;&amp;&lt;&gt;&quot;&#039;	',
+                'allowedTags' => ['br'],
+            ],
             'text with multiple allowed tags, includes self closing tag' => [
                 'data' => '<span>some text in tags<br /></span>',
                 'expected' => '<span>some text in tags<br></span>',
