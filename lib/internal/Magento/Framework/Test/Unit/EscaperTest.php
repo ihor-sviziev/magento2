@@ -5,8 +5,10 @@
  */
 namespace Magento\Framework\Test\Unit;
 
-use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Framework\Escaper;
+use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use Magento\Framework\ZendEscaper;
+use Psr\Log\LoggerInterface;
 
 /**
  * \Magento\Framework\Escaper test case
@@ -14,25 +16,25 @@ use Magento\Framework\Escaper;
 class EscaperTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \Magento\Framework\Escaper
+     * @var Escaper
      */
     private $escaper;
 
     /**
-     * @var \Magento\Framework\ZendEscaper
+     * @var ZendEscaper
      */
     private $zendEscaper;
 
     /**
-     * @var \Psr\Log\LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $loggerMock;
 
     protected function setUp()
     {
         $this->escaper = new Escaper();
-        $this->zendEscaper = new \Magento\Framework\ZendEscaper();
-        $this->loggerMock = $this->getMockForAbstractClass(\Psr\Log\LoggerInterface::class);
+        $this->zendEscaper = new ZendEscaper();
+        $this->loggerMock = $this->getMockForAbstractClass(LoggerInterface::class);
         $objectManagerHelper = new ObjectManager($this);
         $objectManagerHelper->setBackwardCompatibleProperty($this->escaper, 'escaper', $this->zendEscaper);
         $objectManagerHelper->setBackwardCompatibleProperty($this->escaper, 'logger', $this->loggerMock);
