@@ -16,7 +16,7 @@ class EscaperTest extends \PHPUnit\Framework\TestCase
     /**
      * @var \Magento\Framework\Escaper
      */
-    protected $escaper = null;
+    private $escaper;
 
     /**
      * @var \Magento\Framework\ZendEscaper
@@ -24,7 +24,7 @@ class EscaperTest extends \PHPUnit\Framework\TestCase
     private $zendEscaper;
 
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var \Psr\Log\LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $loggerMock;
 
@@ -43,8 +43,9 @@ class EscaperTest extends \PHPUnit\Framework\TestCase
      *
      * @param int $codepoint Unicode codepoint in hex notation
      * @return string UTF-8 literal string
+     * @throws \Exception
      */
-    protected function codepointToUtf8($codepoint)
+    private function codepointToUtf8($codepoint)
     {
         if ($codepoint < 0x80) {
             return chr($codepoint);
@@ -72,9 +73,9 @@ class EscaperTest extends \PHPUnit\Framework\TestCase
         // Exceptions to escaping ranges
         $immune = [',', '.', '_'];
         for ($chr = 0; $chr < 0xFF; $chr++) {
-            if ($chr >= 0x30 && $chr <= 0x39
-                || $chr >= 0x41 && $chr <= 0x5A
-                || $chr >= 0x61 && $chr <= 0x7A
+            if (($chr >= 0x30 && $chr <= 0x39)
+                || ($chr >= 0x41 && $chr <= 0x5A)
+                || ($chr >= 0x61 && $chr <= 0x7A)
             ) {
                 $literal = $this->codepointToUtf8($chr);
                 $this->assertEquals($literal, $this->escaper->escapeJs($literal));
@@ -284,7 +285,7 @@ class EscaperTest extends \PHPUnit\Framework\TestCase
     {
         $data = "Text with 'single' and \"double\" quotes";
         $expected = [
-            "Text with &#039;single&#039; and &quot;double&quot; quotes",
+            'Text with &#039;single&#039; and &quot;double&quot; quotes',
             "Text with \\&#039;single\\&#039; and \\&quot;double\\&quot; quotes",
         ];
         $this->assertEquals($expected[0], $this->escaper->escapeQuote($data));
