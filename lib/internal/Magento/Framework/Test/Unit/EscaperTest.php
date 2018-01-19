@@ -142,6 +142,7 @@ class EscaperTest extends \PHPUnit\Framework\TestCase
      */
     public function testEscapeHtml($data, $expected, $allowedTags = [])
     {
+        $this->loggerMock->expects($this->never())->method('critical');
         $actual = $this->escaper->escapeHtml($data, $allowedTags);
         $this->assertEquals($expected, $actual);
     }
