@@ -11,7 +11,13 @@
 $item = $block->getItem();
 ?>
 <?php if ($block->displayPriceInclTax() || $block->displayBothPrices()): ?>
-    <span class="price-including-tax" data-label="<?= $block->escapeHtml(__('Incl. Tax')) ?>">
+    <?php $oldPrice = $block->getUnitOldPrice(true); ?>
+    <span class="price-including-tax <?= $oldPrice !== null ? 'has-old-price': '' ?>" data-label="<?= $block->escapeHtml(__('Incl. Tax')) ?>">
+        <?php if($oldPrice !== null) : ?>
+            <span class="cart-old-price old-price">
+                <?= /* @escapeNotVerified */ $block->formatPrice($oldPrice) ?>
+            </span>
+        <?php endif; ?>
         <?php if ($block->displayPriceWithWeeeDetails()): ?>
             <span class="cart-tax-total"
                 data-mage-init='{"taxToggle": {"itemTaxId" : "#unit-item-tax-details<?= /* @escapeNotVerified */ $item->getId() ?>"}}'>
@@ -43,7 +49,13 @@ $item = $block->getItem();
 <?php endif; ?>
 
 <?php if ($block->displayPriceExclTax() || $block->displayBothPrices()): ?>
-    <span class="price-excluding-tax" data-label="<?= $block->escapeHtml(__('Excl. Tax')) ?>">
+    <?php $oldPrice = $block->getUnitOldPrice(); ?>
+    <span class="price-excluding-tax <?= $oldPrice !== null ? 'has-old-price': '' ?>" data-label="<?= $block->escapeHtml(__('Excl. Tax')) ?>">
+         <?php if($oldPrice !== null) : ?>
+             <span class="cart-old-price">
+                <?= /* @escapeNotVerified */ $block->formatPrice($oldPrice) ?>
+            </span>
+         <?php endif; ?>
         <?php if ($block->displayPriceWithWeeeDetails()): ?>
             <span class="cart-tax-total"
                 data-mage-init='{"taxToggle": {"itemTaxId" : "#eunit-item-tax-details<?= /* @escapeNotVerified */ $item->getId() ?>"}}'>

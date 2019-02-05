@@ -10,6 +10,7 @@ use Magento\Sales\Model\Order\CreditMemo\Item as CreditMemoItem;
 use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
 use Magento\Sales\Model\Order\Item as OrderItem;
 use Magento\Weee\Model\Tax as WeeeDisplayConfig;
+use Magento\Quote\Model\Quote\Item\AbstractItem as AbstractQuoteItem;
 
 /**
  * Item price render block
@@ -448,5 +449,43 @@ class Renderer extends \Magento\Tax\Block\Item\Price\Renderer
             + $this->weeeHelper->getBaseRowWeeeTaxInclTax($item);
 
         return $totalAmount;
+    }
+
+    /**
+     * Return item old price
+     * @param bool $includeTax
+     *
+     * @return float|null
+     */
+    public function getUnitOldPrice($includeTax = false): ?float
+    {
+        $item              = $this->getItem();
+        if(!$item instanceof AbstractQuoteItem) {
+            return null;
+        }
+
+        $finalPriceExclTax = (float) $includeTax ? $item->getPriceInclTax() : $item->getPrice();
+        $basePrice         = (float)$item->getProduct()->getPrice();
+
+        return $basePrice > $finalPriceExclTax ? $basePrice : null;
+    }
+
+    /**
+     * Return item total old price
+     * @param bool $includeTax
+     *
+     * @return float|null
+     */
+    public function getRowOldPrice($includeTax = false): ?float
+    {
+        $item              = $this->getItem();
+        if(!$item instanceof AbstractQuoteItem) {
+            return null;
+        }
+
+        $finalPriceExclTax = (float) $includeTax ? $item->getRowTotalInclTax() : $item->getRowTotal();
+        $basePrice         = (float)$item->getProduct()->getPrice() * $item->getTotalQty();
+
+        return $basePrice > $finalPriceExclTax ? $basePrice : null;
     }
 }
