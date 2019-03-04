@@ -10,9 +10,9 @@ use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\DB\Select;
 use Magento\UrlRewrite\Model\OptionProvider;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite as UrlRewriteData;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteFactory;
 use Psr\Log\LoggerInterface;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite as UrlRewriteData;
 
 class DbStorage extends AbstractStorage
 {
@@ -177,6 +177,26 @@ class DbStorage extends AbstractStorage
         $hasOldUrls = (bool)$this->connection->fetchOne($checkOldUrlsSelect);
 
         if ($hasOldUrls) {
+            try {
+                $urlRewrites = [];
+
+                foreach ($urls as $key => $url) {
+                    $urlRewrites[$key] = $url->toArray();
+                }
+
+                throw new \Exception('Url rewrites delete action happened.');
+            } catch (\Exception $exception) {
+                $this->logger->info(
+                    (string)$exception,
+                    [
+                        'module' => 'Magento_UrlRewrite',
+                        'method' => 'deleteOldUrls',
+                        'sql' => (string)$checkOldUrlsSelect,
+                        'url_rewrites' => print_r($urlRewrites, true),
+                    ]
+                );
+            }
+
             $this->connection->query(
                 $oldUrlsSelect->deleteFromSelect(
                     $this->resource->getTableName(self::TABLE_NAME)
@@ -301,6 +321,19 @@ class DbStorage extends AbstractStorage
      */
     public function deleteByData(array $data)
     {
+        try {
+            throw new \Exception('Url rewrites delete action happened.');
+        } catch (\Exception $exception) {
+            $this->logger->info(
+                (string)$exception,
+                [
+                    'module' => 'Magento_UrlRewrite',
+                    'method' => 'deleteByData',
+                    'data' => print_r($data, true),
+                ]
+            );
+        }
+
         $this->connection->query(
             $this->prepareSelect($data)->deleteFromSelect($this->resource->getTableName(self::TABLE_NAME))
         );
