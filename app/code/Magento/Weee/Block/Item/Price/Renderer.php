@@ -6,11 +6,11 @@
 namespace Magento\Weee\Block\Item\Price;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Quote\Model\Quote\Item\AbstractItem as AbstractQuoteItem;
 use Magento\Sales\Model\Order\CreditMemo\Item as CreditMemoItem;
 use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
 use Magento\Sales\Model\Order\Item as OrderItem;
 use Magento\Weee\Model\Tax as WeeeDisplayConfig;
-use Magento\Quote\Model\Quote\Item\AbstractItem as AbstractQuoteItem;
 
 /**
  * Item price render block
@@ -459,15 +459,19 @@ class Renderer extends \Magento\Tax\Block\Item\Price\Renderer
      */
     public function getUnitOldPrice($includeTax = false): ?float
     {
-        $item              = $this->getItem();
-        if(!$item instanceof AbstractQuoteItem) {
+        $item = $this->getItem();
+
+        if (!$item instanceof AbstractQuoteItem) {
             return null;
         }
 
-        $finalPriceExclTax = (float) $includeTax ? $item->getPriceInclTax() : $item->getPrice();
-        $basePrice         = (float)$item->getProduct()->getPrice();
+        $price = (float)($includeTax ? $item->getPriceInclTax() : $item->getPrice());
+        $price = $this->priceCurrency->round($price);
 
-        return $basePrice > $finalPriceExclTax ? $basePrice : null;
+        $productPrice = (float)$item->getProduct()->getPrice();
+        $productPrice = $this->priceCurrency->round($productPrice);
+
+        return $productPrice > $price ? $productPrice : null;
     }
 
     /**
@@ -478,14 +482,18 @@ class Renderer extends \Magento\Tax\Block\Item\Price\Renderer
      */
     public function getRowOldPrice($includeTax = false): ?float
     {
-        $item              = $this->getItem();
-        if(!$item instanceof AbstractQuoteItem) {
+        $item = $this->getItem();
+
+        if (!$item instanceof AbstractQuoteItem) {
             return null;
         }
 
-        $finalPriceExclTax = (float) $includeTax ? $item->getRowTotalInclTax() : $item->getRowTotal();
-        $basePrice         = (float)$item->getProduct()->getPrice() * $item->getTotalQty();
+        $finalRowTotal = (float)($includeTax ? $item->getRowTotalInclTax() : $item->getRowTotal());
+        $finalRowTotal = $this->priceCurrency->round($finalRowTotal);
 
-        return $basePrice > $finalPriceExclTax ? $basePrice : null;
+        $originalRowTotal = (float)$item->getProduct()->getPrice() * $item->getTotalQty();
+        $originalRowTotal = $this->priceCurrency->round($originalRowTotal);
+
+        return $originalRowTotal > $finalRowTotal ? $originalRowTotal : null;
     }
 }
