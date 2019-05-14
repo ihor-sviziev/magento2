@@ -136,7 +136,9 @@ class DeployPackage
                 $this->errorsCount++;
                 $this->logger->critical($errorMessage);
             } catch (\Exception $exception) {
-                $this->logger->critical($exception->getTraceAsString());
+                $this->logger->critical(
+                    'Compilation from source ' . $file->getSourcePath() . ' failed' . PHP_EOL . (string)$exception
+                );
                 $this->errorsCount++;
             }
         }
