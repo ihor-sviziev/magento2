@@ -4,7 +4,7 @@
 	"name": "PHP",
 	"build": {
 		"dockerfile": "Dockerfile",
-		"args": { 
+		"args": {
 			// Update VARIANT to pick a PHP version: 8, 8.0, 7, 7.4, 7.3
 			"VARIANT": "7.4",
 			"NODE_VERSION": "none"
