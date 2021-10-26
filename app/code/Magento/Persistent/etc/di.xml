@@ -12,4 +12,17 @@
     <type name="Magento\Customer\CustomerData\Customer">
         <plugin name="section_data" type="Magento\Persistent\Model\Plugin\CustomerData" />
     </type>
+
+    <type name="Magento\Persistent\Observer\EmulateQuoteObserver">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Persistent\Model\QuoteManager">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
 </config>
