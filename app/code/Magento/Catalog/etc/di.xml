@@ -1314,4 +1314,16 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Magento\Catalog\Model\Product\ProductList\ToolbarMemorizer">
+        <arguments>
+            <argument name="catalogSession" xsi:type="object">Magento\Catalog\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Plugin\Framework\App\Action\ContextPlugin">
+        <arguments>
+            <argument name="catalogSession" xsi:type="object">Magento\Catalog\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
 </config>
