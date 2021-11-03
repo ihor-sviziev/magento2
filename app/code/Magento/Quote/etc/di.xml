@@ -138,4 +138,9 @@
             <argument name="generalMessage" xsi:type="string" translatable="true">Enter a valid payment method and try again.</argument>
         </arguments>
     </type>
+    <type name="Magento\Quote\Model\QuoteAddressValidator">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
 </config>
