@@ -15,6 +15,11 @@
             <argument name="taxConfig" xsi:type="object">Magento\Tax\Model\Config\Proxy</argument>
         </arguments>
     </type>
+    <type name="Magento\Tax\Model\Calculation">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\Tax\Model\ResourceModel\Calculation">
         <arguments>
             <argument name="taxData" xsi:type="object">Magento\Tax\Helper\Data\Proxy</argument>
