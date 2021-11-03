@@ -175,6 +175,7 @@
         <arguments>
             <argument name="templateFilterModel" xsi:type="string">Magento\Widget\Model\Template\Filter</argument>
             <argument name="catalogSession" xsi:type="object">Magento\Catalog\Model\Session\Proxy</argument>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Helper\Output">
