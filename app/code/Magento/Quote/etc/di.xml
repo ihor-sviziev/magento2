@@ -143,4 +143,9 @@
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
         </arguments>
     </type>
+    <type name="Magento\Quote\Model\ShippingMethodManagement">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
 </config>
