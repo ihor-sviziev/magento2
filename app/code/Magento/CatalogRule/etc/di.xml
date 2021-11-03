@@ -164,4 +164,9 @@
             <argument name="customConditionProvider" xsi:type="object">CatalogRuleCustomConditionProvider</argument>
         </arguments>
     </type>
+    <type name="Magento\CatalogRule\Observer\PrepareCatalogProductCollectionPricesObserver">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
 </config>
