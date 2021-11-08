@@ -80,17 +80,15 @@ class CustomerNotification
      */
     public function beforeDispatch(AbstractAction $subject, RequestInterface $request)
     {
-        $customerId = $this->session->getCustomerId();
-
         if ($this->state->getAreaCode() == Area::AREA_FRONTEND && $request->isPost()
             && $this->notificationStorage->isExists(
                 NotificationStorage::UPDATE_CUSTOMER_SESSION,
-                $customerId
+                $this->session->getCustomerId()
             )
         ) {
             try {
                 $this->session->regenerateId();
-                $customer = $this->customerRepository->getById($customerId);
+                $customer = $this->customerRepository->getById($this->session->getCustomerId());
                 $this->session->setCustomerData($customer);
                 $this->session->setCustomerGroupId($customer->getGroupId());
                 $this->notificationStorage->remove(NotificationStorage::UPDATE_CUSTOMER_SESSION, $customer->getId());
