@@ -12,7 +12,7 @@ RUN curl -sSLf \
         -o /usr/local/bin/install-php-extensions \
         https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
     chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions zip sodium xsl soap sockets pdo_mysql intl bcmath gd pcntl && \
+    install-php-extensions zip sodium xsl soap sockets pdo_mysql intl bcmath gd pcntl xmlrpc && \
     mv /usr/local/etc/php/conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini.disable
 
 # [Optional] Uncomment this line to install global node packages.
