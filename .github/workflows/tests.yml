@@ -19,6 +19,10 @@ jobs:
           extensions: bcmath, ctype, curl, dom, gd, hash, iconv, intl, mbstring, openssl, pdo_mysql, simplexml, soap, xsl, zip
           tools: composer:v2
           
+      - run: php -i
+      
+      - run: php -m
+          
       - uses: actions/checkout@v2
 
       - name: Get composer cache directory
